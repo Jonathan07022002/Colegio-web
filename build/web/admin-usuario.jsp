@@ -4,6 +4,9 @@
     Author     : Jonathan
 --%>
 
+<%@page import="ModeloBean.Rol"%>
+<%@page import="ModeloBean.Usuario"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,117 +15,31 @@
   <title>Gestión de Usuarios</title>
   <style>
       html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
+        margin: 0; padding: 0; height: 100%; width: 100%;
       }
-
-      .app {
-        display: grid;
-        grid-template-columns: 270px 1fr;
-        height: 100vh;
-        width: 100vw;
-        margin: 0;
-      }
-
-      .sidebar {
-        height: 100vh;
-      }
-
-      .main {
-        padding: 24px;
-        background: #eef3f8;
-        min-height: 100vh;
-        overflow-y: auto;
-      }
-
-      .header-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
+      .app { display: grid; grid-template-columns: 270px 1fr; height: 100vh; width: 100vw; }
+      .main { padding: 24px; background: #eef3f8; overflow-y: auto; }
+      .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
       .btn-primary {
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        padding: 8px 12px;
-        cursor: pointer;
+        background: #2563eb; color: #fff; border: none; border-radius: 8px;
+        padding: 8px 12px; cursor: pointer;
       }
       .btn-primary:hover { background: #1e40af; }
-      .btn-green { background: #16a34a; }
-      .btn-green:hover { background: #15803d; }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-      }
+      table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; }
       th, td { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
       th { background: #f3f4f6; text-align: left; }
-      .actions button {
-        padding: 5px 8px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        color: #fff;
-      }
-      .btn-edit { background: #16a34a; }
-      .btn-delete { background: #dc2626; }
+      .btn-edit { background: #16a34a; color:#fff; border:none; border-radius:6px; padding:5px 8px; text-decoration:none; }
       .btn-edit:hover { background: #15803d; }
+      .btn-delete { background: #dc2626; color:#fff; border:none; border-radius:6px; padding:5px 8px; text-decoration:none; }
       .btn-delete:hover { background: #b91c1c; }
-
-      /* MODALES */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
+      .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
       .modal {
-        background: #fff;
-        border-radius: 12px;
-        width: 500px;
-        padding: 20px;
-        animation: fadeIn .3s ease;
-      }
-      @keyframes fadeIn {
-        from {opacity:0; transform: translateY(-10px);}
-        to {opacity:1; transform: translateY(0);}
-      }
-      .modal h2 { margin-bottom: 15px; }
-      .modal input, .modal select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        margin-bottom: 12px;
-      }
-      .modal button { margin-right: 8px; }
-      .tabla-preview {
-        width: 100%;
-        border-collapse: collapse;
-        background: #f9fafb;
-        border-radius: 8px;
-        margin-top: 8px;
-      }
-      .tabla-preview th, .tabla-preview td {
-        padding: 6px;
-        border: 1px solid #e5e7eb;
-        font-size: 13px;
+        background: #fff; border-radius: 12px; width: 500px; padding: 20px;
       }
   </style>
 </head>
-<body id="page-users">
+<body>
   <div class="app">
     <jsp:include page="sidebar-admin.jsp" />
 
@@ -130,12 +47,11 @@
       <div class="header-actions">
         <h1>Gestión de Usuarios</h1>
         <div style="display:flex; gap:10px;">
-          <button class="btn-primary" onclick="abrirModalIndividual()">Nuevo Usuario</button>
-          <button class="btn-primary" onclick="abrirModalMasivo()">Generar Usuarios</button>
+          <button class="btn-primary" onclick="document.getElementById('modalIndividual').style.display='flex'">Nuevo Usuario</button>
+          <button class="btn-primary" onclick="document.getElementById('modalMasivo').style.display='flex'">Generar Usuarios</button>
         </div>
       </div>
 
-      <!-- TABLA PRINCIPAL -->
       <table>
         <thead>
           <tr>
@@ -148,18 +64,33 @@
           </tr>
         </thead>
         <tbody>
-          <%-- Ejemplo temporal, luego se llena desde servlet --%>
+          <%
+            List<Usuario> lista = (List<Usuario>) request.getAttribute("listaUsuarios");
+            if (lista != null && !lista.isEmpty()) {
+              for (Usuario us : lista) {
+          %>
           <tr>
-            <td>1</td>
-            <td>cargarciar@mrn.edu.pe</td>
-            <td>Carlos Alberto García Ramos</td>
-            <td>Activo</td>
-            <td>2025-10-18</td>
-            <td class="actions">
-              <button class="btn-edit">Editar</button>
-              <button class="btn-delete">Inhabilitar</button>
+            <td><%= us.getIdUsuario() %></td>
+            <td><%= us.getUsername() %></td>
+            <td><%= us.getNombreCompleto() %></td>
+            <td><%= us.getEstado() %></td>
+            <td><%= us.getCreatedAt() %></td>
+            <td>
+              <a href="UsuarioSVL?accion=editar&id=<%= us.getIdUsuario() %>" class="btn-edit">Editar</a>
+              <a href="UsuarioSVL?accion=eliminar&id=<%= us.getIdUsuario() %>" class="btn-delete" onclick="return confirm('¿Deseas eliminar este registro?');">Eliminar</a>
             </td>
           </tr>
+          <% } } else { %>
+          <tr><td colspan="9" style="text-align:center;">No hay registros disponibles.</td></tr>
+          <% } %>
+          
+          <% if (request.getAttribute("persona") != null) { %>
+            <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("modalIndividual").style.display = "flex";
+              });
+            </script>
+            <% } %>
         </tbody>
       </table>
     </main>
@@ -169,19 +100,24 @@
   <div class="modal-overlay" id="modalIndividual">
     <div class="modal">
       <h2>Crear Usuario Individual</h2>
-      <label>DNI:</label>
-      <div style="display:flex; gap:10px;">
-        <input type="text" id="dniBuscar" placeholder="Ingrese DNI">
-        <button class="btn-primary" onclick="buscarPersona()">Buscar</button>
-      </div>
+      <form action="UsuarioSVL" method="post">
+        <input type="hidden" name="accion" value="buscarPersona">
+        <label>DNI:</label>
+        <input type="text" name="dni" placeholder="Ingrese DNI" required>
+        <button type="submit" class="btn-primary">Buscar</button>
+      </form>
 
-      <div id="infoPersona" style="display:none; margin-top:10px;">
-        <p><strong>Nombre:</strong> <span id="nombrePersona"></span></p>
-        <button class="btn-primary" onclick="crearUsuario()">Crear Usuario</button>
-      </div>
+      <% if (request.getAttribute("persona") != null) { %>
+        <form action="UsuarioSVL" method="post">
+          <input type="hidden" name="accion" value="crear">
+          <input type="hidden" name="idPersona" value="<%= request.getAttribute("idPersona") %>">
+          <p><strong>Nombre:</strong> <%= request.getAttribute("nombrePersona") %></p>
+          <button type="submit" class="btn-primary">Crear Usuario</button>
+        </form>
+      <% } %>
 
       <div style="text-align:right; margin-top:10px;">
-          <button class="btn-primary" onclick="cerrarModalIndividual()">Cerrar</button>
+          <button class="btn-primary" onclick="document.getElementById('modalIndividual').style.display='none'">Cerrar</button>
       </div>
     </div>
   </div>
@@ -189,18 +125,27 @@
   <!-- MODAL MASIVO -->
   <div class="modal-overlay" id="modalMasivo">
     <div class="modal">
-      <h2>Generar Usuarios</h2>
-      <label>Rol:</label>
-      <select id="rolFiltro">
+      <h2>Generar Usuarios Masivos</h2>
+      <form action="UsuarioSVL" method="post">
+        <input type="hidden" name="accion" value="crearMasivo">
+        <label>Rol:</label>
+      <select name="rol" id="rolSelect" required onchange="mostrarCamposAlumno()">
         <option value="">Seleccione rol</option>
-        <option value="Alumno">Alumno</option>
-        <option value="Docente">Docente</option>
-        <option value="Apoderado">Apoderado</option>
+        <%
+            List<Rol> listaRoles = (List<Rol>) request.getAttribute("roles");
+                if (listaRoles != null) {
+                    for (Rol r : listaRoles) {
+            %>
+                <option value="<%= r.getNombre() %>"><%= r.getNombre() %></option>
+            <%
+                    }
+                }
+            %>
       </select>
-
-      <div id="filtrosAcademicos" style="display:none;">
+        <!-- Campos que solo se mostrarán si el rol es Alumno -->
+      <div id="camposAlumno" style="display:none;">
         <label>Nivel:</label>
-        <select id="nivelFiltro">
+        <select name="nivel">
           <option value="">Seleccione nivel</option>
           <option value="Inicial">Inicial</option>
           <option value="Primaria">Primaria</option>
@@ -208,125 +153,31 @@
         </select>
 
         <label>Grado:</label>
-        <select id="gradoFiltro"></select>
+        <input type="text" name="grado" placeholder="Ejemplo: 3°">
 
         <label>Sección:</label>
-        <select id="seccionFiltro"></select>
+        <input type="text" name="seccion" placeholder="Ejemplo: A">
       </div>
 
-      <button class="btn-primary" onclick="previsualizarUsuarios()">Previsualizar</button>
-
-      <div id="contenedorPreview" style="display:none; max-height:200px; overflow-y:auto;">
-        <table class="tabla-preview" id="tablaPreview">
-          <thead><tr><th>DNI</th><th>Nombre</th><th>Estado</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <div style="margin-top:10px;">
-        <button class="btn-primary" onclick="crearUsuariosMasivos()">Generar Usuarios</button>
-        <button class="btn-primary" onclick="cerrarModalMasivo()">Cerrar</button>
-      </div>
+        <div style="margin-top:10px;">
+          <button type="submit" class="btn-primary">Generar Usuarios</button>
+          <button type="button" class="btn-primary" onclick="document.getElementById('modalMasivo').style.display='none'">Cerrar</button>
+        </div>
+      </form>
     </div>
   </div>
+  
+<script>
+  function mostrarCamposAlumno() {
+    const rol = document.getElementById('rolSelect').value;
+    const campos = document.getElementById('camposAlumno');
 
-  <script>
-    const modalIndividual = document.getElementById('modalIndividual');
-    const modalMasivo = document.getElementById('modalMasivo');
-    let personaSeleccionada = null;
-
-    // --- INDIVIDUAL ---
-    function abrirModalIndividual() { modalIndividual.style.display = 'flex'; }
-    function cerrarModalIndividual() { modalIndividual.style.display = 'none'; }
-
-    function buscarPersona() {
-      const dni = document.getElementById('dniBuscar').value.trim();
-      if (!dni) return alert("Ingrese un DNI para buscar.");
-
-      fetch(`UsuarioController?accion=buscarPersona&dni=${dni}`)
-        .then(r => r.json())
-        .then(data => {
-          if (data && data.id) {
-            personaSeleccionada = data;
-            document.getElementById('nombrePersona').textContent =
-              data.nombres + ' ' + data.apellido_paterno + ' ' + data.apellido_materno;
-            document.getElementById('infoPersona').style.display = 'block';
-          } else alert('No se encontró persona con ese DNI.');
-        });
+    if (rol === 'Alumno') {
+      campos.style.display = 'block';
+    } else {
+      campos.style.display = 'none';
     }
-
-    function crearUsuario() {
-      if (!personaSeleccionada) return;
-
-      fetch('UsuarioController?accion=crear', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ personaId: personaSeleccionada.id })
-      })
-      .then(r => r.text())
-      .then(res => {
-        if (res === 'ok') {
-          alert('Usuario creado correctamente');
-          location.reload();
-        } else alert('Error: ' + res);
-      });
-    }
-
-    // --- MASIVO ---
-    document.getElementById('rolFiltro').addEventListener('change', e => {
-      document.getElementById('filtrosAcademicos').style.display =
-        (e.target.value === 'Alumno') ? 'block' : 'none';
-    });
-
-    function abrirModalMasivo() { modalMasivo.style.display = 'flex'; }
-    function cerrarModalMasivo() { modalMasivo.style.display = 'none'; }
-
-    function previsualizarUsuarios() {
-      const rol = document.getElementById('rolFiltro').value;
-      const nivel = document.getElementById('nivelFiltro').value;
-      const grado = document.getElementById('gradoFiltro').value;
-      const seccion = document.getElementById('seccionFiltro').value;
-
-      if (!rol) return alert('Seleccione un rol.');
-      fetch(`UsuarioController?accion=listarSinUsuario&rol=${rol}&nivel=${nivel}&grado=${grado}&seccion=${seccion}`)
-        .then(r => r.json())
-        .then(data => {
-          const tbody = document.querySelector('#tablaPreview tbody');
-          tbody.innerHTML = '';
-          data.forEach(p => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${p.dni}</td><td>${p.nombres} ${p.apellido_paterno}</td><td>${p.estado || 'Sin usuario'}</td>`;
-            tbody.appendChild(tr);
-          });
-          document.getElementById('contenedorPreview').style.display = 'block';
-        });
-    }
-
-    function crearUsuariosMasivos() {
-      const rol = document.getElementById('rolFiltro').value;
-      const nivel = document.getElementById('nivelFiltro').value;
-      const grado = document.getElementById('gradoFiltro').value;
-      const seccion = document.getElementById('seccionFiltro').value;
-      if (!rol) return alert('Seleccione un rol.');
-
-      if (!confirm(`¿Desea generar usuarios para todos los ${rol}s seleccionados?`)) return;
-
-      fetch('UsuarioController?accion=crearMasivo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rol, nivel, grado, seccion })
-      })
-      .then(r => r.text())
-      .then(res => {
-        if (res === 'ok') {
-          alert('Usuarios generados correctamente.');
-          location.reload();
-        } else alert('Error: ' + res);
-      });
-    }
-
-    modalIndividual.addEventListener('click', e => { if (e.target === modalIndividual) cerrarModalIndividual(); });
-    modalMasivo.addEventListener('click', e => { if (e.target === modalMasivo) cerrarModalMasivo(); });
-  </script>
+  }
+</script>
 </body>
 </html>

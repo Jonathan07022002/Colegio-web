@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UsuarioSVL", urlPatterns = {"/UsuarioSVL"})
 public class UsuarioSVL extends HttpServlet {
     private UsuarioDAO usuariodao = new UsuarioDAO();
+    private PersonaDAO personadao = new PersonaDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -90,27 +91,89 @@ public class UsuarioSVL extends HttpServlet {
     private void buscarPersona(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException{
         response.setContentType("text/plain;charset=UTF-8");
-        String dni = request.getParameter("dniUsuario");
+        String dni = request.getParameter("dni");
 
-        if (dni == null || dni.trim().isEmpty()) {
-            response.getWriter().write("error|DNI vacío");
-            return;
-        }
+        if (dni.isEmpty()) {
+                    request.setAttribute("mensajeError", "Ingrese un DNI válido.");
+                    request.getRequestDispatcher("admin-usuario.jsp").forward(request, response);
+                    return;
+                }
 
-        PersonaDAO personaDAO = new PersonaDAO();
-        Persona persona = personaDAO.buscarPorDni(dni.trim());
+                Persona persona = personadao.buscarPorDni(dni);
+                if (persona == null) {
+                    request.setAttribute("mensajeError", "No se encontró persona con ese DNI.");
+                } else {
+                    request.setAttribute("persona", persona);
+                    request.setAttribute("idPersona", persona.getId());
+                    request.setAttribute("nombrePersona", persona.getNombres() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
+                }
 
-        try (PrintWriter out = response.getWriter()) {
-            if (persona != null) {
-                String nombreCompleto = persona.getNombres() + " " +
-                                        persona.getApellidoPaterno() + " " +
-                                        persona.getApellidoMaterno();
-                out.write("ok|" + persona.getId() + "|" + nombreCompleto);
-            } else {
-                out.write("error|No se encontró persona");
-            }
-        }
+                List<Usuario> lista = usuariodao.listar();
+                request.setAttribute("listaUsuarios", lista);
+                request.getRequestDispatcher("admin-usuario.jsp").forward(request, response);
 }
+    
+    private void crear(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
+        try {
+        int idPersona = Integer.parseInt(request.getParameter("idPersona"));
+        Persona persona = personadao.obtenerPorId(idPersona);
+
+        if (persona != null) {
+            String nombre = persona.getNombres().trim();
+            String apellidoPaterno = persona.getApellidoPaterno().trim();
+            String apellidoMaterno = persona.getApellidoMaterno().trim();
+            String dni = persona.getDni().trim();
+
+            // Generar username: 3 primeras letras del nombre + apellido paterno completo + 2 primeras del materno
+            String username = "";
+            if (nombre.length() >= 3) {
+                username += nombre.substring(0, 3);
+            } else {
+                username += nombre; // por si tiene menos de 3 letras
+            }
+            username += apellidoPaterno;
+            if (apellidoMaterno.length() >= 2) {
+                username += apellidoMaterno.substring(0, 2);
+            } else {
+                username += apellidoMaterno;
+            }
+
+            username = (username+"@mrn.edu.pe").toLowerCase(); // opcional, para normalizar
+
+            // Password: el DNI (puedes cifrarlo si ya manejas password_hash)
+            String password = dni;
+
+            Usuario usuario = new Usuario();
+            usuario.setIdPersona(idPersona);
+            usuario.setUsername(username);
+            usuario.setPasswordHash(password); // o setPasswordHash si lo estás cifrando
+            usuario.setIdEstado(1);
+            usuario.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+
+            boolean exito = usuariodao.insertar(usuario);
+
+            if (exito) {
+                request.setAttribute("mensajeExito", "Usuario creado correctamente.");
+            } else {
+                request.setAttribute("mensajeError", "No se pudo crear el usuario.");
+            }
+        } else {
+            request.setAttribute("mensajeError", "No se encontró la persona con ese ID.");
+        }
+
+        List<Usuario> lista = usuariodao.listar();
+        request.setAttribute("listaUsuarios", lista);
+        request.getRequestDispatcher("admin-usuario.jsp").forward(request, response);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        request.setAttribute("mensajeError", "Error al crear el usuario: " + e.getMessage());
+        request.getRequestDispatcher("admin-usuario.jsp").forward(request, response);
+    }
+
+}
+
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -128,6 +191,7 @@ public class UsuarioSVL extends HttpServlet {
 
         switch (accion) {
             case "buscarPersona" -> buscarPersona(request, response);
+            case "crear" -> crear(request, response);
             default -> listarUsuarios(request, response);
         }
     }
@@ -141,5 +205,7 @@ public class UsuarioSVL extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    
 
 }

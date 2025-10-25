@@ -214,7 +214,7 @@
               </div>
 
               <!-- CERRAR SESIÓN -->
-              <a href="index.jsp"><i data-lucide="log-out"></i> Cerrar sesión</a>
+              <a href="index.html"><i data-lucide="log-out"></i> Cerrar sesión</a>
             </nav>
         </aside>
 

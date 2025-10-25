@@ -75,16 +75,13 @@
         <h1>Intranet MRN</h1>
       </div>
       <form action="LoginServlet" method="post" id="loginForm">
-    <div class="roles" id="roles">
-        <div class="role" data-role="administrador"><strong>Administrador</strong><small>Gestión</small></div>
-        <div class="role" data-role="docente"><strong>Docente</strong><small>Académico</small></div>
-        <div class="role" data-role="alumno"><strong>Alumno</strong><small>Mi aula</small></div>
-    </div>
-
+          <input type="hidden" name="accion" value="login">          
+                       
     <input class="input" id="user" name="username" placeholder="usuario o correo">
     <input class="input" id="pass" name="password" type="password" placeholder="contraseña">
-    <input type="hidden" id="roleInput" name="role" value="administrador">
+    <a href="forgot-password.jsp">¿Has olvidado la contraseña?</a> <br> <br>
     <button class="btn" type="submit">Ingresar</button>
+    
 </form>
 
 <% if(request.getAttribute("error") != null){ %>
@@ -92,16 +89,7 @@
 <% } %>
 
 <script>
-    const roles = document.querySelectorAll('.role');
-    const roleInput = document.getElementById('roleInput');
-
-    roles.forEach(r=>{
-        r.addEventListener('click',()=>{
-            roles.forEach(x=>x.classList.remove('active'));
-            r.classList.add('active');
-            roleInput.value = r.dataset.role;
-        });
-    });
+    
 </script>
 </body>
 </html>

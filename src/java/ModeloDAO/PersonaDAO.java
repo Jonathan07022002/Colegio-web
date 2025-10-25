@@ -166,4 +166,25 @@ public class PersonaDAO {
         }
         return p;
     }
+
+    public Persona obtenerPorId(int idPersona) {
+     Persona p = null;
+        String sql = "SELECT * FROM persona WHERE id_persona = ?";
+        try {
+            con = conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idPersona);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                p = new Persona();
+                p.setDni(rs.getString("dni"));
+                p.setNombres(rs.getString("nombres"));
+                p.setApellidoPaterno(rs.getString("apellido_paterno"));
+                p.setApellidoMaterno(rs.getString("apellido_materno"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar persona: " + e.getMessage());
+        }
+        return p;   
+    }
 }
