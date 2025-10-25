@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/sidebar-admin.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/index.html</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/login.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-panel.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-rol.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-persona.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-grado.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-seccion.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-nivel.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-turno.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-curso.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-gradoseccion.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-apoderado.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-util.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-entregautil.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-usuario.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/boleta-nota.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-nota.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/conexion/conexion.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Rol.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/rolSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/PersonaSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/rolDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/PersonaDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Persona.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Parentesco.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/ParentescoSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/ParentescoDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Apoderado.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/ApoderadoDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/NivelSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Nivel.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/NivelDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/aulasvl.java</file>
+        </group>
+    </open-files>
+</project-private>
