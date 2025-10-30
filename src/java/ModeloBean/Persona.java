@@ -23,6 +23,7 @@ public class Persona {
     private String correo;
     private Date createdAt;
     private Date updatedAt;
+    private int activo;
     
     private String nombresCompletos;
     private String rol;
@@ -83,6 +84,22 @@ public class Persona {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+
+    public void setIdPersona(long aLong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public long getIdPersona() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

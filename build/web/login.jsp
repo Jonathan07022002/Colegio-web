@@ -79,7 +79,7 @@
                        
     <input class="input" id="user" name="username" placeholder="usuario o correo">
     <input class="input" id="pass" name="password" type="password" placeholder="contraseña">
-    <a href="forgot-password.jsp">¿Has olvidado la contraseña?</a> <br> <br>
+    <p><a href="ResetPassword?accion=formSolicitar">¿Olvidaste tu contraseña?</a></p> <br>
     <button class="btn" type="submit">Ingresar</button>
     
 </form>

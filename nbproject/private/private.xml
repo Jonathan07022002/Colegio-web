@@ -14,7 +14,7 @@
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-nivel.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-turno.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-curso.jsp</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-gradoseccion.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-grado-seccion.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-apoderado.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-util.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-entregautil.jsp</file>
@@ -37,6 +37,29 @@
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Nivel.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/NivelDAO.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/aulasvl.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/UsuarioSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/LoginServlet.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/GradoSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Grado.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/GradoDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/SeccionSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Seccion.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/SeccionDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/TurnoSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Turno.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/TurnoDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/GradoSeccionSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/GradoSeccion.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/GradoSeccionDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/AreaSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/AreaDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Area.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/CursoSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/CursoDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Curso.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/forgot-password.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/UsuarioDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Usuario.java</file>
         </group>
     </open-files>
 </project-private>

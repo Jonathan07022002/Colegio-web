@@ -104,6 +104,17 @@ public class rolSVL extends HttpServlet {
                 roldao.actualizar(rol);
                 response.sendRedirect("rolSVL?accion=listar");
                 break;
+            case "cambiarEstado":
+                int a = Integer.parseInt(request.getParameter("id"));                
+                int activo = Integer.parseInt(request.getParameter("activo"));
+                if(activo == 1){
+                    roldao.cambiarEstado(a, 0);
+                    response.sendRedirect("rolSVL?accion=listar");
+                } else if(activo == 0){
+                    roldao.cambiarEstado(a, 1);
+                    response.sendRedirect("rolSVL?accion=listar");
+                }
+            break;
 
             default:
                 response.sendRedirect("rolSVL?accion=listar");

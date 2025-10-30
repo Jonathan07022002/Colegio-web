@@ -9,7 +9,7 @@ package ModeloBean;
  * @author Jonathan
  */
 public class Seccion {
-        private int id_seccion;
+    private int id_seccion;
     private String nombre;
     private int aforo_max;
     private int activo; // nuevo campo

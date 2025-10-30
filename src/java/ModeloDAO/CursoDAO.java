@@ -13,7 +13,7 @@ import conexion.conexion;
  * @author Jonathan
  */
 public class CursoDAO {
-        Connection con;
+            Connection con;
     PreparedStatement ps;
     ResultSet rs;
 

@@ -136,8 +136,6 @@ public class GradoSeccionSVL extends HttpServlet {
         response.sendRedirect("GradoSeccionSVL?accion=listar");
     }
 
-    
-
     /**
      * Returns a short description of the servlet.
      *
@@ -149,5 +147,6 @@ public class GradoSeccionSVL extends HttpServlet {
     }// </editor-fold>
 
 }
+
 
 

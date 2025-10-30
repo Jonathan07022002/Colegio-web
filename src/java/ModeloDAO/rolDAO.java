@@ -30,6 +30,7 @@ public class rolDAO {
                 rol.setId(rs.getInt("id_rol"));
                 rol.setNombre(rs.getString("nombre_rol"));
                 rol.setDescripcion(rs.getString("descripcion"));
+                rol.setActivo(rs.getInt("activo"));
                 lista.add(rol);
             }
         } catch (Exception e) {
@@ -37,10 +38,33 @@ public class rolDAO {
         }
         return lista;
     }
+    
+    public boolean cambiarEstado(int idRol, int nuevoEstadoId) {
+       String sql = "UPDATE rol SET activo=? WHERE id_rol=?";
+        try {
+            con = conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, nuevoEstadoId);
+            ps.setLong(2, idRol);
+            if (ps.executeUpdate() > 0) {
+            // También actualizar estado en usuario
+                String sqlUsuario = "UPDATE persona SET activo = ? WHERE id_persona IN (SELECT id_persona FROM persona_rol WHERE id_rol = ?)";
+                try (PreparedStatement ps2 = con.prepareStatement(sqlUsuario)) {
+                ps2.setInt(1, nuevoEstadoId);
+                 ps2.setInt(2, idRol);
+                ps2.executeUpdate();
+            }
+        }
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error cambiarEstado: " + e.getMessage());
+            return false;
+        } 
+    }
 
     // ✅ Agregar nuevo rol
     public boolean agregar(Rol rol) {
-        String sql = "INSERT INTO rol (nombre_rol, descripcion) VALUES (?, ?)";
+        String sql = "INSERT INTO rol (nombre_rol, descripcion,activo) VALUES (?, ?, 1)";
         try {
             con = conexion.getConexion();
             ps = con.prepareStatement(sql);

@@ -156,6 +156,11 @@
     .btn-secondary:hover {
       background: #bbb;
     }
+    .btn-toggle { border: none; border-radius: 6px; padding: 8px 12px; color: #fff; cursor: pointer; font-weight: 600; }
+      .btn-enable  { background: #16a34a; }   /* Habilitar */
+      .btn-enable:hover  { background: #15803d; }
+      .btn-disable { background: #f59e0b; }   /* Inhabilitar */
+      .btn-disable:hover { background: #d97706; }
   </style>
     </head>
     <div class="app">
@@ -175,19 +180,22 @@
             <th>ID</th>
             <th>Nombre del Rol</th>
             <th>Descripción</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody id="tablaRoles">
-          <%
+          <% int i=0;
                 List<ModeloBean.Rol> roles = (List<ModeloBean.Rol>) request.getAttribute("roles");
                 if (roles != null) {
                     for (ModeloBean.Rol r : roles) {
+                        i++;
             %>
     <tr>
-        <td><%= r.getId() %></td>
+        <td><%= i %></td>
         <td><%= r.getNombre() %></td>
         <td><%= r.getDescripcion() %></td>
+        <td><%=(r.getActivo() == 1? "Activo" : "Inactivo") %></td>
         <td>
             <button type="button" class="btn-secondary btnEditar"
             data-id="<%=r.getId()%>"
@@ -195,7 +203,14 @@
             data-descripcion="<%=r.getDescripcion()%>">
             Editar
             </button>
-            <a href="rolSVL?accion=eliminar&id=<%=r.getId()%>" class="btn-secondary">Eliminar</a>
+            <form action="rolSVL" method="post" style="display:inline;">
+                <input type="hidden" name="accion" value="cambiarEstado">
+                <input type="hidden" name="id" value="<%= r.getId() %>">
+                <input type="hidden" name="activo" value="<%= r.getActivo() %>">
+                <button type="submit" class="btn-toggle <%= (r.getActivo()==1 ? "btn-disable" : "btn-enable") %>">
+                  <%= r.getActivo()==1 ? "Inhabilitar" : "Habilitar" %>
+                </button>
+              </form>
         </td>
     </tr>
         <%

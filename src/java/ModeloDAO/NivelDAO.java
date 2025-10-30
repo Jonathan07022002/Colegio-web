@@ -13,7 +13,7 @@ import java.util.List;
  * @author Jonathan
  */
 public class NivelDAO {
-        // ✅ LISTAR niveles
+    // ✅ LISTAR niveles
     public List<Nivel> listar() {
         List<Nivel> lista = new ArrayList<>();
         String sql = "SELECT * FROM nivel";

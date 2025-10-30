@@ -12,6 +12,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Gestión de Secciones</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       html, body {
         margin: 0; padding: 0;
@@ -19,144 +20,67 @@
         font-family: "Segoe UI", Arial, sans-serif;
         background: #eef3f8;
       }
-      .app {
-        display: grid;
-        grid-template-columns: 270px 1fr;
-        height: 100vh;
-        width: 100vw;
-      }
+      .app { display: grid; grid-template-columns: 270px 1fr; height: 100vh; width: 100vw; }
       .sidebar { height: 100vh; }
-      .main {
-        padding: 24px;
-        background: #eef3f8;
-        min-height: 100vh;
-        overflow-y: auto;
-      }
+      .main { padding: 24px; background: #eef3f8; overflow-y: auto; }
 
-      .header-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-      .header-actions h1 {
-        font-size: 1.8rem;
-        color: #333;
-      }
+      .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+      .header-actions h1 { font-size: 1.8rem; color: #333; }
       .btn-primary {
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: 0.3s;
-        box-shadow: 0 2px 6px rgba(37,99,235,0.2);
+        background: #2563eb; color: #fff; border: none; padding: 10px 20px;
+        border-radius: 8px; cursor: pointer; font-weight: 500;
+        transition: 0.3s; box-shadow: 0 2px 6px rgba(37,99,235,0.2);
       }
       .btn-primary:hover { background: #1d4ed8; }
 
       table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        width: 100%; border-collapse: collapse; background: #fff;
+        border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       }
-      th, td {
-        padding: 14px 16px;
-        text-align: left;
-        border-bottom: 1px solid #e6e6e6;
-      }
-      th {
-        background: #f5f6fa;
-        color: #333;
-        font-weight: 600;
-      }
+      th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #e6e6e6; }
+      th { background: #f5f6fa; color: #333; font-weight: 600; }
       tr:hover { background: #f9f9ff; }
 
       .btn-edit, .btn-toggle {
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        color: #fff;
-        cursor: pointer;
-        margin-right: 6px;
+        border: none; padding: 6px 12px; border-radius: 6px;
+        color: #fff; cursor: pointer; margin-right: 6px;
       }
       .btn-edit { background: #ffc107; }
       .btn-toggle.btn-green { background: #28a745; }
       .btn-toggle.btn-red { background: #dc3545; }
 
-      /* --- MODAL igual que imagen --- */
       .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.4);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
+        display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.4);
+        justify-content: center; align-items: center; z-index: 1000;
       }
       .modal {
-        background: #fff;
-        width: 430px;
-        border-radius: 12px;
+        background: #fff; width: 430px; border-radius: 12px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-        padding: 26px;
-        animation: fadeIn 0.3s ease;
+        padding: 26px; animation: fadeIn 0.3s ease;
       }
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      .modal h2 {
-        text-align: center;
-        color: #333;
-        font-size: 1.4rem;
-        margin-top: 0;
-      }
-      .form-group {
-        margin-bottom: 15px;
-      }
-      .form-group label {
-        display: block;
-        margin-bottom: 6px;
-        color: #444;
-        font-weight: 500;
-      }
+      .modal h2 { text-align: center; color: #333; font-size: 1.4rem; margin-top: 0; }
+      .form-group { margin-bottom: 15px; }
+      .form-group label { display: block; margin-bottom: 6px; color: #444; font-weight: 500; }
       .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        outline: none;
-        font-size: 1rem;
+        width: 100%; padding: 10px; border: 1px solid #ccc;
+        border-radius: 8px; outline: none; font-size: 1rem;
       }
       .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 20px;
+        display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;
       }
       .btn-secondary {
-        background: #ccc;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
+        background: #ccc; border: none; padding: 8px 16px;
+        border-radius: 8px; cursor: pointer; font-weight: 500;
       }
       .btn-secondary:hover { background: #bbb; }
       .btn-primary-modal {
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
+        background: #2563eb; color: #fff; border: none;
+        padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 500;
       }
       .btn-primary-modal:hover { background: #1d4ed8; }
     </style>
@@ -184,10 +108,15 @@
           </thead>
           <tbody>
             <%
-              List<Seccion> secciones = (List<Seccion>) request.getAttribute("secciones");
+              List<Seccion> secciones = null;
+              try {
+                secciones = (List<Seccion>) request.getAttribute("secciones");
+              } catch (Exception ex) { secciones = null; }
               if (secciones != null && !secciones.isEmpty()) {
                 for (Seccion s : secciones) {
-                  String nombreEscapado = s.getNombre().replace("'", "\\'");
+                  String nombreEscapado = (s.getNombre() != null)
+                          ? s.getNombre().replace("'", "\\'")
+                          : "";
             %>
             <tr>
               <td><%= s.getId_seccion() %></td>
@@ -195,13 +124,11 @@
               <td><%= s.getAforo_max() %></td>
               <td><%= s.getActivo() == 1 ? "Sí" : "No" %></td>
               <td>
-                <!-- Editar -->
                 <button type="button" class="btn-edit"
                         onclick="editarSeccion(<%= s.getId_seccion() %>, '<%= nombreEscapado %>', <%= s.getAforo_max() %>)">
                   Editar
                 </button>
-                <!-- Habilitar / Inhabilitar -->
-                <form action="SeccionSVL" method="post" style="display:inline;">
+                <form action="SeccionSVL" method="post" style="display:inline;" onsubmit="return confirmarToggle();">
                   <input type="hidden" name="accion" value="toggleActivo">
                   <input type="hidden" name="id" value="<%= s.getId_seccion() %>">
                   <button type="submit" class="btn-toggle <%= s.getActivo() == 1 ? "btn-red" : "btn-green" %>">
@@ -218,7 +145,7 @@
       </main>
     </div>
 
-    <!-- MODAL (idéntico a imagen) -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
         <h2 id="modalTitulo">Nueva Sección</h2>
@@ -233,7 +160,7 @@
 
           <div class="form-group">
             <label for="aforoMax">Aforo Máximo</label>
-            <input type="number" id="aforoMax" name="aforoMax" required min="1">
+            <input type="number" id="aforoMax" name="aforoMax" required min="1" max="30">
           </div>
 
           <div class="modal-actions">
@@ -250,6 +177,15 @@
       const modal = document.getElementById('modalOverlay');
       const titulo = document.getElementById('modalTitulo');
       const accion = document.getElementById('accionForm');
+      const form = document.getElementById('formSeccion');
+
+      const seccionesExistentes = [
+        <% if (secciones != null) {
+             for (int i = 0; i < secciones.size(); i++) {
+               Seccion s = secciones.get(i);
+        %>"<%= s.getNombre().toLowerCase() %>"<%= (i < secciones.size() - 1 ? "," : "") %>
+        <% } } %>
+      ];
 
       btnOpen.addEventListener('click', () => {
         accion.value = 'insertar';
@@ -263,6 +199,36 @@
       btnCancel.addEventListener('click', () => modal.style.display = 'none');
       modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 
+      form.addEventListener('submit', e => {
+        const aforo = parseInt(document.getElementById('aforoMax').value);
+        const nombre = document.getElementById('nombreSeccion').value.trim().toLowerCase();
+
+        if (nombre === "") {
+          Swal.fire("Error", "El nombre de la sección no puede estar vacío.", "warning");
+          e.preventDefault();
+          return;
+        }
+        if (aforo <= 0) {
+          Swal.fire("Error", "El aforo debe ser mayor que 0.", "warning");
+          e.preventDefault();
+          return;
+        }
+        if (aforo > 30) {
+          Swal.fire("Aforo máximo alcanzado", "El aforo no puede superar los 30.", "error");
+          e.preventDefault();
+          return;
+        }
+
+        if (seccionesExistentes.includes(nombre) && accion.value === "insertar") {
+          Swal.fire({
+            icon: "error",
+            title: "Sección duplicada",
+            text: "Ya existe una sección con ese nombre.",
+          });
+          e.preventDefault();
+        }
+      });
+
       function editarSeccion(id, nombre, aforo) {
         accion.value = 'actualizar';
         titulo.textContent = 'Editar Sección';
@@ -271,6 +237,11 @@
         document.getElementById('aforoMax').value = aforo;
         modal.style.display = 'flex';
       }
+
+      function confirmarToggle() {
+        return confirm("¿Seguro que deseas cambiar el estado de esta sección?");
+      }
     </script>
   </body>
 </html>
+

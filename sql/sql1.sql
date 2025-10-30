@@ -463,7 +463,7 @@ CREATE TABLE `grado` (
 
 LOCK TABLES `grado` WRITE;
 /*!40000 ALTER TABLE `grado` DISABLE KEYS */;
-INSERT INTO `grado` VALUES (1,'Primero',2,1),(2,'Segundo',2,1),(3,'Tercero',2,1),(4,'Cuarto',2,1),(5,'Quinto',3,1);
+INSERT INTO `grado` VALUES (1,'Primero',2,1),(2,'Segundo',2,0),(3,'Tercero',2,1),(4,'Cuarto',2,1),(5,'Quinto',3,1);
 /*!40000 ALTER TABLE `grado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -560,7 +560,7 @@ CREATE TABLE `nivel` (
 
 LOCK TABLES `nivel` WRITE;
 /*!40000 ALTER TABLE `nivel` DISABLE KEYS */;
-INSERT INTO `nivel` VALUES (1,'Inicial',1),(2,'Primaria',0),(3,'Secundaria',1);
+INSERT INTO `nivel` VALUES (1,'Inicial',0),(2,'Primaria',1),(3,'Secundaria',1);
 /*!40000 ALTER TABLE `nivel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -661,6 +661,37 @@ INSERT INTO `parentesco` VALUES (1,'Padre',1),(2,'Madre',1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `password_reset`
+--
+
+DROP TABLE IF EXISTS `password_reset`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_reset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` bigint(20) unsigned NOT NULL,
+  `token` varchar(128) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `used` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `fk_pr_usuario` (`id_usuario`),
+  CONSTRAINT `fk_pr_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset`
+--
+
+LOCK TABLES `password_reset` WRITE;
+/*!40000 ALTER TABLE `password_reset` DISABLE KEYS */;
+INSERT INTO `password_reset` VALUES (1,1,'290734','2025-10-30 01:21:23',1,'2025-10-30 06:06:23'),(2,1,'281305','2025-10-30 01:29:06',1,'2025-10-30 06:14:06'),(3,1,'029171','2025-10-30 01:31:34',1,'2025-10-30 06:16:34'),(4,1,'883412','2025-10-30 01:37:10',1,'2025-10-30 06:22:10'),(5,12,'666944','2025-10-30 14:09:30',1,'2025-10-30 18:54:30');
+/*!40000 ALTER TABLE `password_reset` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `periodicidad_pago`
 --
 
@@ -702,14 +733,13 @@ CREATE TABLE `persona` (
   `fecha_nacimiento` date DEFAULT NULL,
   `direccion` varchar(160) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
-  `correo` varchar(120) DEFAULT NULL,
+  `correo` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `activo` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_persona`),
-  UNIQUE KEY `uk_persona_dni` (`dni`),
-  UNIQUE KEY `uk_persona_correo` (`correo`),
-  KEY `idx_persona_telefono` (`telefono`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `uk_persona_dni` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -718,7 +748,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'72687994','Jonathan Guillermo','Sanchez','Maluquis','2002-02-07','sacsahuaman 787','987654321','maluquis@gmail.com','2025-10-21 01:06:31','2025-10-21 01:06:31'),(2,'76587993','Juan Diego','Reyes','Salazar','2010-09-08','san ignacion 123','97627836','juan@gmail.com','2025-10-21 01:07:58','2025-10-21 01:07:58'),(3,'68736216','Elena ','Fernandez','Sanchez','2015-10-01','tupac amaru 300','986562126','elen@gmail.com','2025-10-21 04:24:47','2025-10-21 04:24:47'),(4,'77777777','Pedro','Bances','Ramos','1990-12-08','tucume 07','975832673','ban@gmail.com','2025-10-24 01:44:14','2025-10-24 01:44:14'),(5,'72337543','Jose Maria','Altamirano','Ramirez','2030-01-08','tupac 111','987654321','jose@gmail.com','2025-10-25 00:18:56','2025-10-25 00:18:56');
+INSERT INTO `persona` VALUES (1,'72687994','Jonathan Guillermo','Sanchez','Maluquis','2002-02-07','sacsahuaman 787','987654321','maluquis0207@gmail.com','2025-10-21 01:06:31','2025-10-30 21:50:06',0),(2,'76587993','Juan Diego','Reyes','Salazar','2010-09-08','san ignacion 123','97627836','juan@gmail.com','2025-10-21 01:07:58','2025-10-30 21:50:06',0),(3,'68736216','Elena ','Fernandez','Sanchez','2015-10-01','tupac amaru 300','986562126','elen@gmail.com','2025-10-21 04:24:47','2025-10-30 21:50:06',0),(4,'77777777','Pedro','Bances','Ramos','1990-12-08','tucume 07','975832673','ban@gmail.com','2025-10-24 01:44:14','2025-10-24 01:44:14',1),(5,'72337543','Jose Maria','Altamirano','Ramirez','2030-01-08','tupac 111','987654321','jose@gmail.com','2025-10-25 00:18:56','2025-10-30 21:50:06',0),(7,'78282982','Maria','Tavara','Fernandez','2020-02-07','machupichu 700','918922100','maria@gmail.com','2025-10-27 05:35:07','2025-10-30 19:57:44',1),(8,'90218309','jasdjasjdasdj','ajksdjaskljd','ajkldjaskljdas','2000-02-07','','','','2025-10-27 05:36:18','2025-10-30 21:50:06',0),(9,'74608788','JASMIN NICOLE','ROJAS','RIOJA','1999-02-07','jiajsiasj','987521612','jonatha@gmail.com','2025-10-29 05:24:01','2025-10-29 05:24:01',1),(10,'16761588','ELENA','MALUQUIS','FERNANDEZ','2004-07-16','sacsahuaman 787','908753313','elen15@gmail.com','2025-10-29 05:24:47','2025-10-30 18:37:12',1),(11,'72845444','JORGE MICHAEL','CARRANZA','VARONA','2000-08-08','santa 123','987654321','jona@gmail.com','2025-10-30 06:58:27','2025-10-30 19:57:44',1),(13,'72687995','BRIAN DAVID','SANCHEZ','MALUQUIS','2005-06-11','sacsahuaman 787','987654321','maluquis0207@gmail.com','2025-10-30 18:53:08','2025-10-30 21:50:06',0);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -739,7 +769,7 @@ CREATE TABLE `persona_rol` (
   KEY `fk_pr_rol` (`id_rol`),
   CONSTRAINT `fk_pr_persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pr_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -748,7 +778,7 @@ CREATE TABLE `persona_rol` (
 
 LOCK TABLES `persona_rol` WRITE;
 /*!40000 ALTER TABLE `persona_rol` DISABLE KEYS */;
-INSERT INTO `persona_rol` VALUES (1,1,3,'2025-10-21 01:06:31'),(2,2,3,'2025-10-21 01:07:58'),(3,2,5,'2025-10-21 01:07:58'),(4,3,3,'2025-10-21 04:24:47'),(5,4,6,'2025-10-24 01:44:14'),(6,5,3,'2025-10-25 00:18:56');
+INSERT INTO `persona_rol` VALUES (1,1,3,'2025-10-21 01:06:31'),(2,2,3,'2025-10-21 01:07:58'),(3,2,5,'2025-10-21 01:07:58'),(4,3,3,'2025-10-21 04:24:47'),(5,4,6,'2025-10-24 01:44:14'),(6,5,3,'2025-10-25 00:18:56'),(7,7,4,'2025-10-27 05:35:07'),(8,7,5,'2025-10-27 05:35:07'),(9,8,3,'2025-10-27 05:36:18'),(10,9,4,'2025-10-29 05:24:01'),(11,10,4,'2025-10-29 05:24:47'),(12,11,5,'2025-10-30 06:58:27'),(13,13,3,'2025-10-30 18:53:08');
 /*!40000 ALTER TABLE `persona_rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -794,9 +824,10 @@ CREATE TABLE `rol` (
   `id_rol` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nombre_rol` varchar(40) NOT NULL,
   `descripcion` varchar(160) DEFAULT NULL,
+  `activo` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_rol`),
   UNIQUE KEY `uk_rol_nombre` (`nombre_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -805,7 +836,7 @@ CREATE TABLE `rol` (
 
 LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (3,'ALUMNO','estudiante'),(4,'APODERADO','Tutores'),(5,'DOCENTE','profesores'),(6,'ADMINISTRADOR','Acceso a todo el sistema'),(7,'MANTENIMIENTO','mantener el sistema');
+INSERT INTO `rol` VALUES (3,'ALUMNO','estudiante',0),(4,'APODERADO','Tutores',1),(5,'DOCENTE','profesores',1),(6,'ADMINISTRADOR','Acceso a todo el sistema',1),(7,'MANTENIMIENTO','mantener el sistema',1),(8,'DIRECTOR','Direccion',1);
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -832,7 +863,7 @@ CREATE TABLE `seccion` (
 
 LOCK TABLES `seccion` WRITE;
 /*!40000 ALTER TABLE `seccion` DISABLE KEYS */;
-INSERT INTO `seccion` VALUES (1,'A',30,1),(2,'B',30,1);
+INSERT INTO `seccion` VALUES (1,'A',30,0),(2,'B',30,1);
 /*!40000 ALTER TABLE `seccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -942,7 +973,7 @@ CREATE TABLE `usuario` (
   KEY `fk_usuario_estado` (`id_estado`),
   CONSTRAINT `fk_usuario_estado` FOREIGN KEY (`id_estado`) REFERENCES `estado_usuario` (`id_estado`) ON UPDATE CASCADE,
   CONSTRAINT `fk_usuario_persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -951,7 +982,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'jonsanchez@mrn.edu.pe','72687994',1,1,'2025-10-23 17:40:46',NULL),(2,'pedo@mrn.edu.pe','77777777',4,1,'2025-10-24 01:45:55',NULL);
+INSERT INTO `usuario` VALUES (1,'jonsanchez@mrn.edu.pe','$2a$12$6LM17iCaqDudQbhW6ZIQ4uZEgfUHpI/gOxCqYGv.sebS19AcRVn0C',1,2,'2025-10-23 17:40:46',NULL),(2,'pedo@mrn.edu.pe','77777777',4,1,'2025-10-24 01:45:55',NULL),(4,'elefernandezsa@mrn.edu.pe','$2a$12$0WApkAVXMicoyO1upZMLcOpqOVqlHttgHWWrK0rn7I4/6VU.ZMBbW',3,2,'2025-10-25 06:16:38',NULL),(5,'martavarafe@mrn.edu.pe','78282982',7,1,'2025-10-27 05:38:33',NULL),(6,'jona@gmail.com','72845444',11,1,'2025-10-30 07:36:24',NULL),(7,'juan@gmail.com','$2a$12$6n3FRj6T04cYPEjiFst8ru2b497F1Cuav2rYxWRrGxzlSyTVHDzDy',2,2,'2025-10-30 07:40:25',NULL),(8,'jasajksdjaskljdaj@mrn.edu.pe','$2a$12$Ua6H5uWusecm7gNWRB/Dk.ko78c6xEeXwk11bxOn55XamMNaHbZj6',8,2,'2025-10-30 07:40:26',NULL),(9,'jonatha@gmail.com','74608788',9,1,'2025-10-30 17:12:53',NULL),(10,'elemaluquisfe@mrn.edu.pe','16761588',10,1,'2025-10-30 17:15:03',NULL),(11,'josaltamiranora@mrn.edu.pe','72337543',5,2,'2025-10-30 17:19:27',NULL),(12,'brisanchezma@mrn.edu.pe','Jonathan\"07',13,2,'2025-10-30 18:53:30',NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1022,4 +1053,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-24 21:12:07
+-- Dump completed on 2025-10-30 17:21:38

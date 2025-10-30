@@ -9,7 +9,7 @@ package ModeloBean;
  * @author Jonathan
  */
 public class GradoSeccion {
-        private int id_grado_seccion;
+            private int id_grado_seccion;
     private int id_grado;
     private int id_seccion;
     private int id_turno;

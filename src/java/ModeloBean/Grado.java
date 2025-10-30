@@ -9,7 +9,7 @@ package ModeloBean;
  * @author Jonathan
  */
 public class Grado {
-    private int id_grado;
+        private int id_grado;
     private String nombre;
     private int id_nivel;
     private int activo;
@@ -56,5 +56,6 @@ public class Grado {
     public void setNombreNivel(String nombreNivel) {
         this.nombreNivel = nombreNivel;
     }
+
 
 }

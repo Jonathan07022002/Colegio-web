@@ -14,7 +14,7 @@ import java.util.List;
  * @author Jonathan
  */
 public class SeccionDAO {
-        //  Listar todas las secciones
+    // Listar todas las secciones
     public List<Seccion> listar() {
         List<Seccion> lista = new ArrayList<>();
         String sql = "SELECT id_seccion, nombre_seccion AS nombre, aforo_max, activo FROM seccion ORDER BY id_seccion ASC";
@@ -31,9 +31,26 @@ public class SeccionDAO {
                 lista.add(s);
             }
         } catch (SQLException e) {
-            System.err.println(" SeccionDAO.listar -> " + e.getMessage());
+            System.err.println("❌ SeccionDAO.listar -> " + e.getMessage());
         }
         return lista;
+    }
+
+    // Verificar si existe una sección con el mismo nombre
+    public boolean existeNombre(String nombre) {
+        String sql = "SELECT COUNT(*) FROM seccion WHERE LOWER(nombre_seccion) = LOWER(?)";
+        try (Connection con = conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ SeccionDAO.existeNombre -> " + e.getMessage());
+        }
+        return false;
     }
 
     // Agregar nueva sección (por defecto activa)
@@ -50,7 +67,7 @@ public class SeccionDAO {
         }
     }
 
-    //  Obtener por id
+    // Obtener por id
     public Seccion obtenerPorId(int id) {
         Seccion s = null;
         String sql = "SELECT id_seccion, nombre_seccion, aforo_max, activo FROM seccion WHERE id_seccion = ?";
@@ -72,7 +89,7 @@ public class SeccionDAO {
         return s;
     }
 
-    //  Actualizar
+    // Actualizar
     public boolean actualizar(Seccion s) {
         String sql = "UPDATE seccion SET nombre_seccion = ?, aforo_max = ? WHERE id_seccion = ?";
         try (Connection con = conexion.getConexion();
@@ -87,7 +104,7 @@ public class SeccionDAO {
         }
     }
 
-    // ✅ Alternar estado activo/inactivo
+    // Alternar estado activo/inactivo
     public boolean toggleActivo(int id) {
         String sql = "UPDATE seccion SET activo = CASE WHEN activo = 1 THEN 0 ELSE 1 END WHERE id_seccion = ?";
         try (Connection con = conexion.getConexion();
@@ -95,7 +112,7 @@ public class SeccionDAO {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("❌ SeccionDAO.toggleActivo -> " + e.getMessage());
+            System.err.println(" SeccionDAO.toggleActivo -> " + e.getMessage());
             return false;
         }
     }

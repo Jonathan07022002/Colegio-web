@@ -7,59 +7,16 @@ package Controlador;
 import ModeloBean.Turno;
 import ModeloDAO.TurnoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
-/**
- *
- * @author Jonathan
- */
 @WebServlet(name = "TurnoSVL", urlPatterns = {"/TurnoSVL"})
 public class TurnoSVL extends HttpServlet {
-        private static final long serialVersionUID = 1L;
-        TurnoDAO dao = new TurnoDAO();
+    private static final long serialVersionUID = 1L;
+    private final TurnoDAO dao = new TurnoDAO();
 
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TurnoSVL</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TurnoSVL at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -73,76 +30,127 @@ public class TurnoSVL extends HttpServlet {
                 request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
             }
             case "editar" -> {
-                int id = Integer.parseInt(request.getParameter("id"));
-                Turno t = dao.obtenerPorId(id);
-                request.setAttribute("turno", t);
+                try {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Turno t = dao.obtenerPorId(id);
+                    request.setAttribute("turno", t);
+                } catch (Exception e) {
+                    // ignorar parse errors
+                }
                 request.setAttribute("turnos", dao.listar());
                 request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
             }
-            case "eliminar" -> {
-                int id = Integer.parseInt(request.getParameter("id"));
-                dao.eliminar(id);
-                response.sendRedirect(request.getContextPath() + "/TurnoSVL?accion=listar");
-            }
             default -> response.sendRedirect(request.getContextPath() + "/TurnoSVL?accion=listar");
         }
-
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String accion = request.getParameter("accion");
         if (accion == null) accion = "";
 
         switch (accion) {
             case "insertar" -> {
                 String nombre = request.getParameter("nombreTurno");
-                int activo = request.getParameter("activo").equals("Sí") ? 1 : 0;
+                if (nombre == null) nombre = "";
+                nombre = nombre.trim();
+
+                // Validaciones backend
+                if (nombre.isEmpty()) {
+                    request.setAttribute("errorMensaje", "El nombre no puede estar vacío.");
+                    request.setAttribute("turnos", dao.listar());
+                    request.setAttribute("openModal", true);
+                    request.setAttribute("modalNombre", nombre);
+                    request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+                    return;
+                }
+                if (dao.existeNombre(nombre)) {
+                    request.setAttribute("errorMensaje", "Ya existe un turno con ese nombre.");
+                    request.setAttribute("turnos", dao.listar());
+                    request.setAttribute("openModal", true);
+                    request.setAttribute("modalNombre", nombre);
+                    request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+                    return;
+                }
+                if (dao.contarTurnos() >= 3) {
+                    request.setAttribute("errorMensaje", "No se pueden agregar más de tres turnos.");
+                    request.setAttribute("turnos", dao.listar());
+                    request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+                    return;
+                }
 
                 Turno t = new Turno();
                 t.setNombre_turno(nombre);
-                t.setActivo(activo);
-
+                t.setActivo(1);
                 dao.agregar(t);
-                response.sendRedirect(request.getContextPath() + "/TurnoSVL?accion=listar");
+
+                request.setAttribute("mensaje", "Turno creado correctamente.");
+                request.setAttribute("turnos", dao.listar());
+                request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
             }
+
             case "actualizar" -> {
-                int id = Integer.parseInt(request.getParameter("id_turno"));
-                String nombre = request.getParameter("nombreTurno");
-                int activo = request.getParameter("activo").equals("Sí") ? 1 : 0;
+                try {
+                    int id = Integer.parseInt(request.getParameter("id_turno"));
+                    String nombre = request.getParameter("nombreTurno");
+                    if (nombre == null) nombre = "";
+                    nombre = nombre.trim();
 
-                Turno t = new Turno();
-                t.setId_turno(id);
-                t.setNombre_turno(nombre);
-                t.setActivo(activo);
+                    if (nombre.isEmpty()) {
+                        request.setAttribute("errorMensaje", "El nombre no puede estar vacío.");
+                        request.setAttribute("turnos", dao.listar());
+                        request.setAttribute("openModal", true);
+                        request.setAttribute("modalNombre", nombre);
+                        request.setAttribute("modalId", id);
+                        request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+                        return;
+                    }
 
-                dao.actualizar(t);
-                response.sendRedirect(request.getContextPath() + "/TurnoSVL?accion=listar");
+                    if (dao.existeNombreExcepto(nombre, id)) {
+                        request.setAttribute("errorMensaje", "Ya existe otro turno con ese nombre.");
+                        request.setAttribute("turnos", dao.listar());
+                        request.setAttribute("openModal", true);
+                        request.setAttribute("modalNombre", nombre);
+                        request.setAttribute("modalId", id);
+                        request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+                        return;
+                    }
+
+                    Turno t = dao.obtenerPorId(id);
+                    if (t != null) {
+                        t.setNombre_turno(nombre);
+                        // conservar estado actual del registro
+                        dao.actualizar(t);
+                        request.setAttribute("mensaje", "Turno actualizado correctamente.");
+                    } else {
+                        request.setAttribute("errorMensaje", "Turno no encontrado.");
+                    }
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorMensaje", "ID inválido.");
+                }
+                request.setAttribute("turnos", dao.listar());
+                request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
             }
+
+            case "toggleActivo" -> {
+                try {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    boolean ok = dao.toggleActivo(id);
+                    if (!ok) {
+                        request.setAttribute("errorMensaje", "No se pudo cambiar el estado del turno.");
+                    } else {
+                        request.setAttribute("mensaje", "Estado cambiado correctamente.");
+                    }
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorMensaje", "ID inválido.");
+                }
+                request.setAttribute("turnos", dao.listar());
+                request.getRequestDispatcher("admin-turno.jsp").forward(request, response);
+            }
+
             default -> response.sendRedirect(request.getContextPath() + "/TurnoSVL?accion=listar");
         }
-    
-
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

@@ -1,0 +1,562 @@
+{
+	"info": {
+		"_postman_id": "699a3c5d-e671-4368-b742-f7f41179f418",
+		"name": "ApiPeruDevExport",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1305750"
+	},
+	"item": [
+		{
+			"name": "Consulta DNI",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dni\": \"41784439\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/dni",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"dni"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20602324371\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC Sunat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20552103816\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc_sunat",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc_sunat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC Representantes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20602324371\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc_representantes",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc_representantes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC Establecimientos Anexos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20109072177\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc_establecimientos_anexos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc_establecimientos_anexos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC Domicilio Fiscal",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20100148162\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc_domicilio_fiscal",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc_domicilio_fiscal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta RUC Deuda Coactiva",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc\": \"20602324371\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ruc_deuda_coactiva",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ruc_deuda_coactiva"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta Tipo de cambio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fecha\": \"2024-03-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/tipo_de_cambio",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"tipo_de_cambio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta CPE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc_emisor\": \"10417844398\",\r\n    \"codigo_tipo_documento\": \"01\",\r\n    \"serie_documento\": \"F001\",\r\n    \"numero_documento\": \"650\",\r\n    \"fecha_de_emision\":\"2023-10-08\",\r\n    \"total\": 159.30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/cpe",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"cpe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta CPE Multiple",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc_empresa\": \"\",\r\n    \"sol_usuario\": \"\",\r\n    \"clave_usuario\": \"\",\r\n    \"comprobantes\": [\r\n        {\r\n            \"ruc_emisor\": \"20308674755\",\r\n            \"codigo_tipo_documento\": \"07\",\r\n            \"serie_documento\": \"BC01\",\r\n            \"numero_documento\": \"1\",\r\n            \"fecha_de_emision\": \"2020-09-24\",\r\n            \"total\": 120\r\n        },\r\n        {\r\n            \"ruc_emisor\": \"20308674755\",\r\n            \"codigo_tipo_documento\": \"07\",\r\n            \"serie_documento\": \"BC01\",\r\n            \"numero_documento\": \"1\",\r\n            \"fecha_de_emision\": \"2020-09-24\",\r\n            \"total\": 120\r\n        }        \r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/validacion_multiple_cpe",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"validacion_multiple_cpe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta CPE Multiple V2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruc_empresa\": \"\",\r\n    \"sol_usuario\": \"\",\r\n    \"clave_usuario\": \"\",\r\n    \"comprobantes\": [\r\n        \"20333632650|01|F001|1025|2021-05-24|2007.72\",\r\n        \"20426749743|01|F001|637|2021-06-29|2589.82\",\r\n        \"20308674755|07|BC01|1|2020-09-24|120.00\",\r\n        \"20308674755|07|BC01|1|2020-09-24|120.00\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/validacion_multiple_cpe_v2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"validacion_multiple_cpe_v2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta Comisiones AFP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"periodo\": \"2023-09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/comisiones_afp",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"comisiones_afp"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://apiperu.dev",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "token",
+			"type": "string"
+		}
+	]
+}

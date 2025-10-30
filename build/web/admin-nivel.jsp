@@ -51,7 +51,7 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Nombre</th>
               <th>Activo</th>
               <th>Acciones</th>
@@ -61,10 +61,13 @@
             <%
               List<Nivel> niveles = (List<Nivel>) request.getAttribute("niveles");
               if (niveles != null && !niveles.isEmpty()) {
+              int i =0;
                   for (Nivel n : niveles) {
+                  i++;
+                  
             %>
             <tr>
-              <td><%= n.getId_nivel() %></td>
+              <td><%= i %></td>
               <td><%= n.getNombre() %></td>
               <td><%= n.getActivo() == 1 ? "Sí" : "No" %></td>
               <td>
@@ -149,3 +152,4 @@
     <% } %>
   </body>
 </html>
+

@@ -151,13 +151,13 @@ public class LoginServlet extends HttpServlet {
                             response.sendRedirect("admin-panel.jsp");
                             break;
                         case "docente":
-                            response.sendRedirect("docente-dashboard.jsp");
+                            response.sendRedirect("docente-inicio.jsp");
                             break;
                         case "alumno":
-                            response.sendRedirect("alumno-dashboard.jsp");
+                            response.sendRedirect("alumno-inicio.jsp");
                             break;
                         default:
-                            response.sendRedirect("login.jsp");
+                            response.sendRedirect("docente-inicio.jsp");
                             break;
                     }
                 }

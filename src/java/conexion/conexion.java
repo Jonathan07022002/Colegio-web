@@ -1,51 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package conexion;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-/**
- *
- * @author Jonathan
- */
-public class conexion {
-    private static final String URL = "jdbc:mysql://localhost:3307/colegio?useSSL=false&serverTimezone=UTC";
+
+public final class conexion {
+
+    // Ajusta si quieres tu zona horaria
+    private static final String URL =
+        "jdbc:mysql://localhost:3307/colegio" +
+        "?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" +
+        "&useUnicode=true&characterEncoding=UTF-8";
+
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    private static Connection conexion;
+    public static void cerrarConexion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-    // Método para obtener la conexión
+    public conexion() {} // no instanciable
+
+    /** Devuelve SIEMPRE una nueva conexión. */
     public static Connection getConexion() {
         try {
-            if (conexion == null || conexion.isClosed()) {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                conexion = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("✅ Conexión establecida correctamente");
-            }
+            // (Desde JDBC 4 no es obligatorio, pero no estorba)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("✅ Conexión nueva abierta");
+            return cn;
         } catch (ClassNotFoundException e) {
-            System.err.println("❌ Error: No se encontró el driver de MySQL");
-            e.printStackTrace();
+            throw new RuntimeException("No se encontró el driver MySQL", e);
         } catch (SQLException e) {
-            System.err.println("❌ Error al conectar con la base de datos");
-            e.printStackTrace();
+            throw new RuntimeException("Error al conectar con la BD", e);
         }
-        return conexion;
     }
 
-    // Método para cerrar la conexión
-    public static void cerrarConexion() {
-        try {
-            if (conexion != null && !conexion.isClosed()) {
-                conexion.close();
-                System.out.println("🔒 Conexión cerrada correctamente");
+    /** Cierra recursos en silencio (útil en servicios sin try-with-resources). */
+    public static void closeQuietly(AutoCloseable... resources) {
+        for (AutoCloseable r : resources) {
+            if (r != null) {
+                try { r.close(); } catch (Exception ignored) {}
             }
-        } catch (SQLException e) {
-            System.err.println("❌ Error al cerrar la conexión");
-            e.printStackTrace();
         }
     }
-
 }

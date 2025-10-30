@@ -165,6 +165,4 @@ public class NivelSVL extends HttpServlet {
         System.out.println(" Estado de nivel cambiado (ID: " + id + ")");
         response.sendRedirect("NivelSVL?accion=listar");
     }
-
-
 }

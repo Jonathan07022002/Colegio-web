@@ -303,7 +303,23 @@
 #btnOpenModal {
   box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
 }
-      
+      .btn-disable {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-enable {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
         </style>
     </head>
     <body>
@@ -338,6 +354,11 @@
                 }
             %>
           </select>
+         <select id="filtroActivo" name="filtroactivo">
+        <option value="1" selected>Activos</option>
+        <option value="0">Inactivos</option>
+        <option value="3">Todos</option>
+      </select>
         <button class="btn-primary" id="btnFiltrar">Filtrar</button>
       </div>
         <% if (lista == null || lista.isEmpty()) { %>
@@ -354,23 +375,41 @@
             <th>Correo</th>
             <th>Teléfono</th>
             <th>Rol(es)</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody id="tablaPersonas">
-          <%
+          <% int i=0;
         for (Persona p : lista) {
+            
+            if (p.getActivo() != 1) continue;
+            i++;
       %>
         <tr>
-          <td><%= p.getId() %></td>
+          <td><%= i %></td>
           <td><%= p.getDni() %></td>
           <td><%= p.getNombresCompletos()%></td>
           <td><%= p.getCorreo() %></td>
           <td><%= p.getTelefono() %></td>
           <td><%= p.getRol() != null ? p.getRol() : "Sin rol" %></td>
+          <td><%= p.getActivo() == 1 ? "Activo" : "Inactivo" %></td>
           <td>
-            <a href="PersonaSVL?accion=editar&id=<%= p.getId() %>" class="btn-edit">Editar</a>
-            <a href="PersonaSVL?accion=eliminar&id=<%= p.getId() %>" class="btn-disable">Eliminar</a>
+            <button type="button" class="btn-edit" 
+                    onclick="abrirModalEditar('<%= p.getId() %>', '<%= p.getDni() %>', '<%= p.getNombresCompletos() %>', 
+                                              '<%= p.getCorreo() %>', '<%= p.getTelefono() %>', 
+                                              '<%= p.getDireccion()%>', '<%= p.getRol()%>')">
+              Editar
+            </button>
+            <form action="PersonaSVL" method="post" style="display:inline;">
+                <input type="hidden" name="accion" value="cambiarEstado">
+                <input type="hidden" name="id" value="<%= p.getId() %>">
+                <input type="hidden" name="activo" value="<%= p.getActivo() %>">
+                    
+                <button type="submit" class="btn-toggle <%= (p.getActivo()==1 ? "btn-disable" : "btn-enable") %>">
+                  <%= p.getActivo()==1 ? "Inhabilitar" : "Habilitar" %>
+                </button>
+              </form>
           </td>
         </tr>
       <%
@@ -388,60 +427,92 @@
       </div>
     </main>
   </div>
-    <!-- Modal Crear Persona -->
-  <div class="modal-overlay" id="modalOverlay">
+<!-- Modal Crear Persona -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h2>Nueva Persona</h2>
-    <form id="formPersona" action="PersonaSVL" method="post">
-  <input type="hidden" name="accion" value="agregar">
+    <% if (request.getAttribute("error") != null) { %>
+    <div style="color: red; background: #fee2e2; padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+        <%= request.getAttribute("error") %>
+    </div>
+<% } %>
+    <form id="formPersona" action="PersonaSVL" method="post" onsubmit="return validarFormulario()">
+      <input type="hidden" name="accion" value="agregar">
+      
       <div class="form-grid">
+
+        <!-- DNI -->
         <div class="form-group">
-          <label>DNI</label>
-          <input type="text" name="dni" id="dni" maxlength="8" required>
-        </div>
+            <label>DNI <span style="color:red">*</span></label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" name="dni" id="dni" maxlength="8" required placeholder="campo obligatorio" style="flex:1;">
+              <button type="button" onclick="consultarDNI()" class="btn-primary" style="white-space: nowrap;">Buscar</button>
+            </div>
+            <small id="errorDni" style="color:red; display:none;">El DNI debe tener 8 dígitos numéricos.</small>
+          </div>
+
+        <!-- Nombres -->
         <div class="form-group">
-          <label>Nombres</label>
-          <input type="text" name="nombres" id="nombres" required>
+          <label>Nombres <span style="color:red">*</span></label>
+          <!-- Este campo es obligatorio -->
+          <input type="text" name="nombres" id="nombres" required placeholder="Ingrese nombres" readonly="readonly">
         </div>
 
+        <!-- Apellido Paterno -->
         <div class="form-group">
-          <label>Apellido Paterno</label>
-          <input type="text" name="apellido_paterno" id="apellido_paterno" required>
-        </div>
-        <div class="form-group">
-          <label>Apellido Materno</label>
-          <input type="text" name="apellido_materno" id="apellido_materno" required>
+          <label>Apellido Paterno <span style="color:red">*</span></label>
+          <!-- Este campo es obligatorio -->
+          <input type="text" name="apellido_paterno" id="apellido_paterno" readonly="readonly" required>
         </div>
 
+        <!-- Apellido Materno -->
+        <div class="form-group">
+          <label>Apellido Materno <span style="color:red">*</span></label>
+          <!-- Este campo es obligatorio -->
+          <input type="text" name="apellido_materno" id="apellido_materno" readonly="readonly" required>
+        </div>
+
+        <!-- Fecha de Nacimiento -->
         <div class="form-group">
           <label>Fecha de Nacimiento</label>
           <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+          <small id="errorFecha" style="color:red; display:none;"></small>
         </div>
+
+        <!-- Dirección -->
         <div class="form-group">
           <label>Dirección</label>
           <input type="text" name="direccion" id="direccion">
         </div>
 
+        <!-- Teléfono -->
         <div class="form-group">
           <label>Teléfono</label>
           <input type="text" name="telefono" id="telefono">
         </div>
+
+        <!-- Correo -->
         <div class="form-group">
-          <label>Correo</label>
-          <input type="email" name="correo" id="correo">
+          <label>Correo <span style="color:red">*</span></label>
+          <!-- Este campo es obligatorio -->
+          <input type="email" name="correo" id="correo" required placeholder="campo obligatorio">
+          <small id="errorCorreo" style="color:red; display:none;">Ingrese un correo válido (ejemplo@correo.com)</small>
         </div>
 
+        <!-- Rol -->
         <div class="form-group" style="grid-column: span 2;">
-          <label>Rol</label>
-          <select id="rol" name="rol" multiple required>
+          <label>Rol <span style="color:red">*</span></label>
+          <!-- Este campo es obligatorio -->
+          <select id="rol" name="rol" required>
             <%
                 for (Rol r : listaRoles) {
+                    if(r.getActivo() != 1) continue;
             %>
                 <option value="<%= r.getId() %>"><%= r.getNombre() %></option>
             <%
                 }
             %>
-</select>
+          </select>
         </div>
       </div>
 
@@ -451,7 +522,77 @@
       </div>
     </form>
   </div>
+          <div id="resultado" style="margin-top: 15px; font-weight: bold;"></div>
 </div>
+
+<!-- ============= VALIDACIONES JAVASCRIPT ============= -->
+<script>
+    
+    async function consultarDNI() {
+            var dni = document.getElementById("dni").value.trim();
+            const resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = "Consultando...";
+
+            if (!dni) {
+                alert("Por favor, ingrese un DNI.");
+                resultadoDiv.innerHTML = "";
+                return;
+            }
+            
+            fetch(
+                "https://apiperu.dev/api/dni/"+
+                dni+
+                "?api_token=20b0f85cab7fd4f9d98a7278ab3ca9ad419436448cc6d0e53e66a1f54b086313"
+            )
+            .then((res)=>res.json())
+            .then((data) =>{
+                document.getElementById("nombres").value = data.data.nombres || "";
+                document.getElementById("apellido_paterno").value = data.data.apellido_paterno || "";
+                document.getElementById("apellido_materno").value = data.data.apellido_materno || "";
+                document.getElementById("direccion").value = data.data.direccion || "";
+  });
+    }
+function validarFormulario() {
+  let valido = true;
+
+  // DNI
+  const dni = document.getElementById("dni").value.trim();
+  const errorDni = document.getElementById("errorDni");
+  if (!/^\d{8}$/.test(dni)) {
+    errorDni.style.display = "block";
+    valido = false;
+  } else {
+    errorDni.style.display = "none";
+  }
+
+  // CORREO
+  const correo = document.getElementById("correo").value.trim();
+  const errorCorreo = document.getElementById("errorCorreo");
+  const regexCorreo = /^[\w\.-]+@[\w\.-]+\.\w{2,}$/;
+  if (!regexCorreo.test(correo)) {
+    errorCorreo.style.display = "block";
+    valido = false;
+  } else {
+    errorCorreo.style.display = "none";
+  }
+
+  // FECHA DE NACIMIENTO
+  const fecha = document.getElementById("fecha_nacimiento").value;
+  const errorFecha = document.getElementById("errorFecha");
+  if (fecha) {
+    const fechaIngresada = new Date(fecha);
+    const limite = new Date();
+    if (fechaIngresada > hoy) {
+      errorFecha.style.display = "block";
+      valido = false;
+    } else {
+      errorFecha.style.display = "none";
+    }
+  }
+
+  return valido;
+}
+</script>
 
   <script>
     const btnOpen = document.getElementById('btnOpenModal');
@@ -557,5 +698,139 @@ const filtroNombre = document.getElementById("filtroNombre");
 
 
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("formPersona");
+
+  if (!form) return;
+
+  form.addEventListener("submit", function(event) {
+    const dni = document.getElementById("dni").value.trim();
+    const fecha = document.getElementById("fecha_nacimiento").value;
+    const errores = [];
+
+    if (!/^\d{8}$/.test(dni)) {
+      errores.push("El DNI debe tener exactamente 8 dígitos numéricos.");
+    }
+
+    if (fecha) {
+      const f = new Date(fecha);
+      const hoy = new Date();
+      if (f > hoy) {
+        errores.push("La fecha de nacimiento no puede ser posterior a hoy.");
+      }
+    }
+
+    if (errores.length > 0) {
+      event.preventDefault();
+      alert(errores.join("\n"));
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mostrar = "<%= request.getAttribute("mostrarModal") != null ? request.getAttribute("mostrarModal") : false %>";
+  if (mostrar === "true") {
+    document.getElementById("modalOverlay").style.display = "flex";
+  }
+});
+
+function abrirModalEditar(id, dni, nombreCompleto, correo, telefono, direccion, rol) {
+  const modal = document.getElementById('modalOverlay');
+  const form = document.getElementById('formPersona');
+
+  // Cambiar título y acción del formulario
+  modal.querySelector('h2').textContent = 'Editar Persona';
+  form.action = 'PersonaSVL';
+  form.querySelector('[name="accion"]').value = 'actualizar';
+  
+  // Dividir nombres completos si es necesario
+  const partes = nombreCompleto.split(' ');
+  const nombres = partes.slice(0, -2).join(' ');
+  const apellidos = partes.slice(-2).join(' ');
+
+  // Llenar datos
+  document.getElementById('dni').value = dni;
+  document.getElementById('nombres').value = nombres;
+  document.getElementById('apellido_paterno').value = apellidos.split(' ')[0] || '';
+  document.getElementById('apellido_materno').value = apellidos.split(' ')[1] || '';
+  document.getElementById('correo').value = correo;
+  document.getElementById('telefono').value = telefono;
+  document.getElementById('direccion').value = direccion;
+  document.getElementById('rol').value = rol;
+
+  // Bloquear campos que no deben modificarse
+  document.getElementById('dni').readOnly = true;
+  document.getElementById('nombres').readOnly = true;
+  document.getElementById('apellido_paterno').readOnly = true;
+  document.getElementById('apellido_materno').readOnly = true;
+
+  // Mostrar el modal
+  modal.style.display = 'flex';
+}
+
+
+function cambiarEstado(id, estadoActual) {
+  const accion = estadoActual === 1 ? "inhabilitar" : "habilitar";
+  const confirmar = confirm(
+    `¿Seguro que deseas \${accion === "inhabilitar" ? "inhabilitar" : "habilitar"} a esta persona \${id}?`
+  );
+
+  if (!confirmar) return;
+
+  fetch(`PersonaSVL?accion=${accion}&id=${id}`,{
+  method: "POST"
+    })
+    .then(res => res.text())
+    .then(res => {
+      if (res.ok) {
+        alert(`Persona \${accion === "inhabilitar" ? "inhabilitada" : "habilitada"} correctamente`);
+        location.reload();
+      } else {
+        alert("Ocurrió un error al cambiar el estado");
+      }
+    })
+    .catch(() => alert("Error en la conexión"));
+}
+
+// Restablecer el modal al abrir para "Crear Persona"
+document.getElementById("btnOpenModal").addEventListener("click", () => {
+  const modal = document.getElementById('modalOverlay');
+  const form = document.getElementById('formPersona');
+
+  modal.querySelector('h2').textContent = 'Nueva Persona';
+  form.reset();
+  form.querySelector('[name="accion"]').value = 'agregar';
+
+  // Desbloquear todos los campos
+  document.getElementById('dni').readOnly = false;
+    document.getElementById('nombres').readOnly = true;
+  document.getElementById('apellido_paterno').readOnly = true;
+  document.getElementById('apellido_materno').readOnly = true;
+});
+
+const filtroActivo = document.getElementById("filtroActivo");
+const filasOriginales = Array.from(document.querySelectorAll("#tablaPersonas tr"));
+
+filtroActivo.addEventListener("change", () => {
+  const valor = filtroActivo.value;
+  const cuerpoTabla = document.getElementById("tablaPersonas");
+  cuerpoTabla.innerHTML = ""; // limpiar
+
+  filasOriginales.forEach(fila => {
+    const estadoTexto = fila.cells[6].textContent.trim().toLowerCase(); // Columna Estado
+    const esActivo = estadoTexto === "activo";
+
+    if (
+      (valor === "1" && esActivo) ||
+      (valor === "0" && !esActivo) ||
+      (valor === "todos")
+    ) {
+      cuerpoTabla.appendChild(fila);
+    }
+  });
+});
+</script>
 </body>
 </html>

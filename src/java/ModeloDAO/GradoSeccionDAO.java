@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jonathan
  */
 public class GradoSeccionDAO {
-        Connection con;
+            Connection con;
     PreparedStatement ps;
     ResultSet rs;
 
@@ -48,8 +48,6 @@ public class GradoSeccionDAO {
 
         } catch (SQLException e) {
             System.out.println(" Error al listar GradoSeccion: " + e.getMessage());
-        } finally {
-            conexion.cerrarConexion();
         }
 
         return lista;
@@ -136,5 +134,6 @@ public class GradoSeccionDAO {
         }
         return false;
     }
+
 
 }

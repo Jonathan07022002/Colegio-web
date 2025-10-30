@@ -46,4 +46,5 @@ public class Nivel {
         this.activo = activo;
     }
  
+
 }

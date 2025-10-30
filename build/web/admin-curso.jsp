@@ -98,7 +98,7 @@ tr:hover { background: #f9f9ff; }
                             <form style="display:inline" action="AreaSVL" method="post">
                                 <input type="hidden" name="id_area" value="<%= a.getId_area() %>">
                                 <button type="submit" name="accion" value="toggleActivo" class="btn-action btn-toggle">
-                                    <%= a.isActivo() ? "Inactivar" : "Activar" %>
+                                    <%= a.isActivo() ? "Deshabilitar" : "Habilitar" %>
                                 </button>
                             </form>
                         </td>

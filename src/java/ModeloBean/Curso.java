@@ -9,7 +9,7 @@ package ModeloBean;
  * @author Jonathan
  */
 public class Curso {
-        private int id_curso;
+            private int id_curso;
     private String nombre;
     private String descripcion;
     private int id_area;

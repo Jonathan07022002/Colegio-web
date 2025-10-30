@@ -12,6 +12,7 @@ public class Rol {
     private int id;
     private String nombre;
     private String descripcion;
+    private int activo;
 
     public Rol() {}
 
@@ -45,4 +46,13 @@ public class Rol {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+    
 }
