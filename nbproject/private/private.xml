@@ -19,13 +19,6 @@
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-util.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-entregautil.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-usuario.jsp</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/boleta-nota.jsp</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-nota.jsp</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/conexion/conexion.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Rol.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/rolSVL.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/PersonaSVL.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/rolDAO.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/PersonaDAO.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Persona.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Parentesco.java</file>
@@ -52,14 +45,33 @@
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/GradoSeccion.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/GradoSeccionDAO.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/AreaSVL.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/AreaDAO.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Area.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/CursoSVL.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/CursoDAO.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Curso.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/sidebar-docente.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/admin-tarifa.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/alumno-inicio.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/docente-inicio.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/alumno-horario.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/docente-horario.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/docente-comunicado.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/PersonaSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/ApiPeruService.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/DniServlet.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/boleta-nota.jsp</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/forgot-password.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/reset-password.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/ResetPasswordSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/PasswordResetDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/util/EmailUtil.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/util/PasswordUtil.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/web/TokenUtil.jsp</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/util/TokenUtil.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/conexion/conexion.java</file>
             <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/UsuarioDAO.java</file>
-            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Usuario.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Rol.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/rolDAO.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/rolSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/Controlador/CursoSVL.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloBean/Curso.java</file>
+            <file>file:/C:/Users/Jonathan/Documents/NetBeansProjects/ColegioMRN/src/java/ModeloDAO/CursoDAO.java</file>
         </group>
     </open-files>
 </project-private>

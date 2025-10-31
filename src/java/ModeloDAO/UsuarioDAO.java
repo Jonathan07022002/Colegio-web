@@ -13,8 +13,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class UsuarioDAO {
 
     Connection con;
@@ -117,14 +115,12 @@ public class UsuarioDAO {
 
                 // Caso normal: bcrypt válido
                 if (hashDB.startsWith("$2a$") || hashDB.startsWith("$2b$") || hashDB.startsWith("$2y$")) {
-                    ok = BCrypt.checkpw(passwordIngresada, hashDB);
+                    
                 } else {
                     // Posible residuo de formatos antiguos ($12$...) o texto plano.
                     // Migración: si coincide en texto, re-hashear.
                     if (hashDB.equals(passwordIngresada) || hashDB.startsWith("$12$")) {
-                        ok = true; // acepta por única vez y migra
-                        String nuevoHash = BCrypt.hashpw(passwordIngresada, BCrypt.gensalt(12));
-                        actualizarPasswordPorUsuarioConHash(idUsuario, nuevoHash);
+                        ok = true; // acepta por única vez y m
                     }
                 }
 
